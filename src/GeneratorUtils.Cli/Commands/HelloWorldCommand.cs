@@ -4,7 +4,7 @@ using CliFx.Attributes;
 
 namespace GeneratorUtils.Cli.Commands
 {
-    [Command]
+    [Command("Hello")]
     public sealed class HelloWorldCommand : ICommand
     {
         public async ValueTask ExecuteAsync(IConsole console) => await console.Output.WriteLineAsync("Hello World!");
