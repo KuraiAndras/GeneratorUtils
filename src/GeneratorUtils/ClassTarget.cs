@@ -2,15 +2,20 @@
 
 namespace GeneratorUtils
 {
-    public readonly struct ClassTarget
+    public sealed class ClassTarget
     {
-        public ClassTarget(IImmutableSet<ChangeDescriptor> descriptors, string targetClassPath)
+        public ClassTarget(
+            ChangeDescriptor[] descriptors,
+            string targetClassPath,
+            string className)
         {
-            Descriptors = descriptors;
+            Descriptors = ImmutableHashSet.Create(descriptors);
             TargetClassPath = targetClassPath;
+            ClassName = className;
         }
 
         public IImmutableSet<ChangeDescriptor> Descriptors { get; }
         public string TargetClassPath { get; }
+        public string ClassName { get; }
     }
 }

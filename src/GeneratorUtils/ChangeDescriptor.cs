@@ -2,7 +2,7 @@
 
 namespace GeneratorUtils
 {
-    public readonly struct ChangeDescriptor
+    public sealed class ChangeDescriptor
     {
         public ChangeDescriptor(Type sourceType, Type targetType)
         {
