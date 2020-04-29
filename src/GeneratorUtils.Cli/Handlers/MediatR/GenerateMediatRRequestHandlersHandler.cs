@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,8 +19,9 @@ namespace GeneratorUtils.Cli.Handlers.MediatR
             Assembly targetAssembly;
             try
             {
-                var asd = File.Exists(request.AssemblyPath);
+#pragma warning disable S3885 // "Assembly.Load" should be used
                 targetAssembly = Assembly.LoadFile(request.AssemblyPath);
+#pragma warning restore S3885 // "Assembly.Load" should be used
             }
             catch (Exception e)
             {
