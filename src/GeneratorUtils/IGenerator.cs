@@ -2,7 +2,7 @@
 
 namespace GeneratorUtils
 {
-    public interface IGenerator<T>
+    public interface IGenerator
     {
         public ClassTarget CreateChangeDescriptors(Type inputType);
     }
