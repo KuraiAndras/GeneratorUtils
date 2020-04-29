@@ -1,10 +1,11 @@
-﻿using System.Reflection;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using GeneratorUtils.Cli.Commands;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Exceptions;
+using System.Reflection;
 
 namespace GeneratorUtils.Cli.DependencyInjection
 {
@@ -15,6 +16,7 @@ namespace GeneratorUtils.Cli.DependencyInjection
         public static IServiceCollection AddCli(this IServiceCollection services)
         {
             Log.Logger = new LoggerConfiguration()
+                .Enrich.WithExceptionDetails()
                 .WriteTo.Console()
                 .CreateLogger();
 

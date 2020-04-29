@@ -148,3 +148,18 @@ dotnet_diagnostic.SA1208.severity = none
 
 # RCS1188: Remove redundant auto-property initialization.
 dotnet_diagnostic.RCS1188.severity = none
+
+# xUnit2000: Constants and literals should be the expected argument
+dotnet_diagnostic.xUnit2000.severity = warning
+
+# S3885: "Assembly.Load" should be used
+dotnet_diagnostic.S3885.severity = warning
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none
+
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+
+# SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = none
