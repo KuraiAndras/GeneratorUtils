@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System.Threading.Tasks;
 
 namespace GeneratorUtils.Samples.MediatR.Generator
@@ -18,6 +19,7 @@ namespace GeneratorUtils.Samples.MediatR.Generator
                 .ConfigureServices(s => s
                     .AddGenerator()
                     .AddMediatR(assembliesToScan))
+                .UseSerilog((ctx, config) => config.WriteTo.Console())
                 .Build();
 
             await host.RunAsync();
