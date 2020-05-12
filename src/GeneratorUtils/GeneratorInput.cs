@@ -8,9 +8,9 @@ namespace GeneratorUtils
     {
         public GeneratorInput(ISet<TypeInput> inputTypes)
         {
-            InputTypes = ImmutableHashSet.Create(inputTypes.ToArray());
+            TypeInputs = ImmutableHashSet.Create(inputTypes.ToArray());
         }
 
-        public IImmutableSet<TypeInput> InputTypes { get; }
+        public IImmutableSet<TypeInput> TypeInputs { get; }
     }
 }
