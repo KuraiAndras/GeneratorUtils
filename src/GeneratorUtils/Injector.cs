@@ -12,6 +12,8 @@ namespace GeneratorUtils
 
             services.AddSingleton(options);
 
+            services.AddHostedService<ClassGeneratorHostedService>();
+
             return services;
         }
     }
