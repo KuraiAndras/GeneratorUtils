@@ -10,7 +10,7 @@ namespace GeneratorUtils
             var options = new GeneratorOptions();
             optionsBuilder?.Invoke(options);
 
-            services.AddSingleton<IGeneratorOptions, GeneratorOptions>();
+            services.AddSingleton(options);
 
             return services;
         }

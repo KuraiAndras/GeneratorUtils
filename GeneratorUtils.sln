@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratorUtils.Cli", "src\GeneratorUtils.Cli\GeneratorUtils.Cli.csproj", "{EAC46887-530F-495A-9EC3-4557AEF309C4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EFA15B8F-AA69-4BBB-BA5C-D308CAAC62E8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -22,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{2BA11A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratorUtils", "src\GeneratorUtils\GeneratorUtils.csproj", "{F0073ABF-56FE-4A37-9A76-536DEFD3F484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratorUtils.Samples.MediatR.Generator", "samples\GeneratorUtils.Samples.MediatR.Generator\GeneratorUtils.Samples.MediatR.Generator.csproj", "{C124A86B-8D6D-420D-8787-71A41E5B610C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratorUtils.Samples.MediatR.Generator", "samples\GeneratorUtils.Samples.MediatR.Generator\GeneratorUtils.Samples.MediatR.Generator.csproj", "{C124A86B-8D6D-420D-8787-71A41E5B610C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EAC46887-530F-495A-9EC3-4557AEF309C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAC46887-530F-495A-9EC3-4557AEF309C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAC46887-530F-495A-9EC3-4557AEF309C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAC46887-530F-495A-9EC3-4557AEF309C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{342EF4B1-C51F-457C-A167-63C785CF606E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{342EF4B1-C51F-457C-A167-63C785CF606E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{342EF4B1-C51F-457C-A167-63C785CF606E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,7 +49,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EAC46887-530F-495A-9EC3-4557AEF309C4} = {2BA11AC9-26B7-4483-BDAC-A34518832AD5}
 		{342EF4B1-C51F-457C-A167-63C785CF606E} = {04E8B38B-2792-4048-8E2D-3D6DE9124BFF}
 		{C474187A-A4B4-4CB9-AC3C-64159CB0DE31} = {614748FA-152D-41FF-A049-43807A0FD3D4}
 		{F0073ABF-56FE-4A37-9A76-536DEFD3F484} = {2BA11AC9-26B7-4483-BDAC-A34518832AD5}
