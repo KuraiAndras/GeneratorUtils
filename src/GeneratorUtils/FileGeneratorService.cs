@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,31 +11,18 @@ namespace GeneratorUtils
 {
     public sealed class FileGeneratorService : IGeneratorService
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly GeneratorOptions _options;
         private readonly ILogger<FileGeneratorService> _logger;
-        private readonly IImmutableSet<ITokenizer> _tokenizers;
-        private readonly IImmutableSet<IFileGenerator> _fileGenerators;
-        private readonly IImmutableSet<IInputTypeProvider> _typeProviders;
 
         public FileGeneratorService(
+            IServiceProvider serviceProvider,
             GeneratorOptions options,
-            IEnumerable<IInputTypeProvider> typeProviders,
-            IEnumerable<IFileGenerator> fileGenerators,
-            IEnumerable<ITokenizer> tokenizers,
             ILogger<FileGeneratorService> logger)
         {
-            var generators = fileGenerators.ToArray();
-            var providers = typeProviders.ToArray();
-            var tokenizerArray = tokenizers.ToArray();
-
-            if (generators.Length == 0) throw new GeneratorException("No file generators registered");
-            if (providers.Length == 0) throw new GeneratorException("No type providers registered");
-
+            _serviceProvider = serviceProvider;
             _options = options;
             _logger = logger;
-            _fileGenerators = ImmutableHashSet.Create(generators);
-            _typeProviders = ImmutableHashSet.Create(providers);
-            _tokenizers = ImmutableHashSet.Create(tokenizerArray);
         }
 
         public async Task GenerateFilesAsync()
@@ -46,7 +33,7 @@ namespace GeneratorUtils
 
                 var stopwatch = Stopwatch.StartNew();
 
-                var inputTasks = _typeProviders.Select(p => p.GetInputTypesAsync()).ToArray();
+                var inputTasks = _serviceProvider.GetRequiredService<IEnumerable<IInputTypeProvider>>().Select(p => p.GetInputTypesAsync()).ToArray();
                 await Task.WhenAll(inputTasks);
 
                 _logger.LogInformation("Creating file outputs");
@@ -54,9 +41,10 @@ namespace GeneratorUtils
                 var outputs = new List<FileOutput>();
                 foreach (var typeInput in inputTasks.SelectMany(t => t.Result))
                 {
-                    var handler = _fileGenerators.SingleOrDefault(g => g.GetType() == typeInput.GeneratorType);
-                    if (handler is null)
-                        throw new GeneratorException($"Did not register handler {typeInput.GeneratorType.FullName}");
+                    var handler = _serviceProvider
+                        .GetRequiredService<IEnumerable<IFileGenerator>>()
+                        .SingleOrDefault(g => g.GetType() == typeInput.GeneratorType);
+                    if (handler is null) throw new GeneratorException($"Did not register handler {typeInput.GeneratorType.FullName}");
 
                     var output = await handler.CreateFileBodyForFileAsync(typeInput.InputType, _options.TargetRootPath);
 
@@ -81,7 +69,10 @@ namespace GeneratorUtils
                         }
                     }
 
-                    var tokenizer = _tokenizers.SingleOrDefault(t => t.GetType() == fileOutput.Tokenizer) ?? throw new GeneratorException($"Tokenizer not found {fileOutput.Tokenizer.FullName}");
+                    var tokenizer = _serviceProvider
+                        .GetRequiredService<IEnumerable<ITokenizer>>()
+                        .SingleOrDefault(t => t.GetType() == fileOutput.Tokenizer);
+                    if (tokenizer is null) throw new GeneratorException($"Tokenizer not found {fileOutput.Tokenizer.FullName}");
 
                     var tokenizedFileBody = await tokenizer.TokenizeAsync(fileOutput.FileBody, fileOutput.Tokens, fileOutput.StringComparison);
 

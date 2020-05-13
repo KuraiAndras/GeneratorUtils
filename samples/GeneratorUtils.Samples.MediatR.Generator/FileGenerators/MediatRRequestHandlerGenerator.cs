@@ -9,23 +9,24 @@ namespace GeneratorUtils.Samples.MediatR.Generator.FileGenerators
     {
         public Task<FileOutput> CreateFileBodyForFileAsync(Type inputType, string rootDirectory)
         {
+            // ReSharper disable once MissingIndent
             const string file =
-                @"using MediatR;
-                using System.Threading;
-                using System.Threading.Tasks;
-                using {3};
-                using {4};
+@"using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
+using {3};
+using {4};
 
-                namespace GeneratorUtils.Samples.MediatR.Handlers
-                {
-                    public sealed class {0} : IRequestHandler<{1}, {2}>
-                    {
-                        public Task<{2}> Handle({1} request, CancellationToken cancellationToken)
-                        {
-                            throw new System.NotImplementedException();
-                        }
-                    }
-                }";
+namespace GeneratorUtils.Samples.MediatR.Handlers
+{
+    public sealed class {0} : IRequestHandler<{1}, {2}>
+    {
+        public Task<{2}> Handle({1} request, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+}";
 
             Type? responseType = null;
             foreach (var inputTypeInterface in inputType.GetInterfaces())
