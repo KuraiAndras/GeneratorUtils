@@ -12,7 +12,7 @@ namespace GeneratorUtils.Samples.MediatR.Generator.FileGenerators
             var requests = typeof(SampleMarkerType)
                 .Assembly
                 .GetTypes()
-                .Where(t => t.GetInterfaces().Any(i => typeof(IBaseRequest).IsAssignableFrom(i)))
+                .Where(t => !t.IsInterface && !t.IsAbstract && t.GetInterfaces().Any(i => typeof(IBaseRequest).IsAssignableFrom(i)))
                 .Select(t => new TypeInput(t, typeof(MediatRRequestHandlerGenerator)))
                 .ToImmutableArray();
 

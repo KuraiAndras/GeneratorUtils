@@ -11,10 +11,11 @@ namespace GeneratorUtils.Samples.MediatR.Generator.FileGenerators
         {
             // ReSharper disable once MissingIndent
             const string file =
-@"
-using MediatR;
+@"using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using {3};
+using {4};
 
 namespace GeneratorUtils.Samples.MediatR.Handlers
 {
@@ -27,31 +28,35 @@ namespace GeneratorUtils.Samples.MediatR.Handlers
     }
 }
 ";
-            var responseString = string.Empty;
+            Type? responseType = null;
             foreach (var inputTypeInterface in inputType.GetInterfaces())
             {
                 if (inputTypeInterface.IsGenericType && inputTypeInterface.GetGenericTypeDefinition() == typeof(IRequest<>))
                 {
-                    responseString = inputTypeInterface.GetGenericArguments()[0].Name;
+                    responseType = inputTypeInterface.GetGenericArguments()[0];
                     break;
                 }
 
                 if (inputTypeInterface == typeof(IRequest))
                 {
-                    responseString = nameof(Unit);
+                    responseType = typeof(Unit);
                     break;
                 }
             }
+
+            if (responseType is null) throw new GeneratorException("No response type");
 
             var path = Path.Combine(rootDirectory, "Handlers", inputType.Name + "Handler.cs");
             var tokens = new[]
             {
                 inputType.Name + "Handler",
-                inputType.FullName ?? throw new GeneratorException("No full name for type"),
-                responseString,
+                inputType.Name ?? throw new GeneratorException("No full name for type"),
+                responseType.Name,
+                inputType.Namespace ?? throw new GeneratorException("No namespace for type"),
+                responseType.Namespace ?? throw new GeneratorException("No namespace for type"),
             };
 
-            return Task.FromResult(new FileOutput(file, path, tokens));
+            return Task.FromResult(new FileOutput(file, path, tokens, replaceIfExists: true));
         }
     }
 }
