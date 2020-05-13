@@ -1,7 +1,5 @@
 ﻿using GeneratorUtils.Samples.MediatR.Generator.FileGenerators;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Threading.Tasks;
 
@@ -11,22 +9,21 @@ namespace GeneratorUtils.Samples.MediatR.Generator
     {
         public static async Task Main()
         {
-            var assembliesToScan = new[]
-            {
-                typeof(Program).Assembly,
-                typeof(Injector).Assembly,
-            };
+            var services = new ServiceCollection();
 
-            var host = new HostBuilder()
-                .ConfigureServices(s => s
-                    .AddGenerator(builder => builder.TargetRootPath = @"D:\GeneratorUtils\samples\GeneratorUtils.Samples.MediatR")
-                    .AddTransient<IFileGenerator, MediatRRequestHandlerGenerator>()
-                    .AddTransient<IInputTypeProvider, MediatRRequestHandlerTypeProvider>()
-                    .AddMediatR(assembliesToScan))
-                .UseSerilog((_, config) => config.WriteTo.Console())
-                .Build();
+            services.AddGenerator(builder => builder.TargetRootPath = @"D:\GeneratorUtils\samples\GeneratorUtils.Samples.MediatR");
 
-            await host.RunAsync();
+            services.AddTransient<IFileGenerator, MediatRRequestHandlerGenerator>();
+            services.AddTransient<IInputTypeProvider, MediatRRequestHandlerTypeProvider>();
+            services.AddTransient<IGeneratorService, FileGeneratorService>();
+
+            services.AddLogging(options => options.AddSerilog(new LoggerConfiguration().WriteTo.Console().CreateLogger()));
+
+            var sp = services.BuildServiceProvider();
+
+            var generator = sp.GetRequiredService<IGeneratorService>();
+
+            await generator.GenerateFilesAsync();
         }
     }
 }
