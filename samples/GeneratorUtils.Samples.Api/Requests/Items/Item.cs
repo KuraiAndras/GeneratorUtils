@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeneratorUtils.Samples.MediatR.Requests.Items
+namespace GeneratorUtils.Samples.Api.Requests.Items
 {
     public sealed class Item
     {

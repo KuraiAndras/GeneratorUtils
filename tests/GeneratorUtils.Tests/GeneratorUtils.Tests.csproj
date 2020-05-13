@@ -27,8 +27,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\GeneratorUtils.Cli\GeneratorUtils.Cli.csproj" />
-  </ItemGroup>
-
 </Project>

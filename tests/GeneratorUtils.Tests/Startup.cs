@@ -10,7 +10,8 @@ namespace GeneratorUtils.Tests
 {
     public sealed class Startup : DependencyInjectionTestFramework
     {
-        public Startup(IMessageSink messageSink) : base(messageSink)
+        public Startup(IMessageSink messageSink)
+            : base(messageSink)
         {
         }
 
