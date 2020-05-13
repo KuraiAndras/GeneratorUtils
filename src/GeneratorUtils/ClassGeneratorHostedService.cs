@@ -39,6 +39,8 @@ namespace GeneratorUtils
             var outputs = new List<FileOutput>();
             foreach (var typeInput in inputTasks.SelectMany(t => t.Result))
             {
+                if (cancellationToken.IsCancellationRequested) return;
+
                 var handler = _fileGenerators.SingleOrDefault(g => g.GetType() == typeInput.HandlerType);
                 if (handler is null) throw new GeneratorException($"Did not register handler {typeInput.HandlerType.FullName}");
 
@@ -49,15 +51,18 @@ namespace GeneratorUtils
 
             foreach (var fileOutput in outputs)
             {
-                await File.WriteAllTextAsync(fileOutput.FilePath, fileOutput.FileBody, cancellationToken);
+                if (cancellationToken.IsCancellationRequested) return;
+
+                var fileDirectory = Path.GetDirectoryName(fileOutput.FilePath);
+                if (!Directory.Exists(fileDirectory)) Directory.CreateDirectory(fileDirectory);
+
+                await using var stream = new FileStream(fileOutput.FilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                await using var writer = new StreamWriter(stream);
+
+                await writer.WriteAsync(fileOutput.FileBody);
             }
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            // TODO: Stop generation
-
-            return Task.CompletedTask;
-        }
+        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
     }
 }

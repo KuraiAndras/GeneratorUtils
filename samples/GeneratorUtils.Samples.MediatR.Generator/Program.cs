@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using GeneratorUtils.Samples.MediatR.Generator.FileGenerators;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Threading.Tasks;
@@ -17,9 +19,11 @@ namespace GeneratorUtils.Samples.MediatR.Generator
 
             var host = new HostBuilder()
                 .ConfigureServices(s => s
-                    .AddGenerator()
+                    .AddGenerator(builder => builder.TargetRootPath = @"D:\GeneratorUtils\samples\GeneratorUtils.Samples.MediatR")
+                    .AddTransient<IFileGenerator, MediatRRequestHandlerGenerator>()
+                    .AddTransient<IInputTypeProvider, MediatRRequestHandlerTypeProvider>()
                     .AddMediatR(assembliesToScan))
-                .UseSerilog((ctx, config) => config.WriteTo.Console())
+                .UseSerilog((_, config) => config.WriteTo.Console())
                 .Build();
 
             await host.RunAsync();

@@ -169,3 +169,6 @@ dotnet_diagnostic.SA1516.severity = none
 
 # SA1503: Braces should not be omitted
 dotnet_diagnostic.SA1503.severity = none
+
+# CA1040: Avoid empty interfaces
+dotnet_diagnostic.CA1040.severity = none
