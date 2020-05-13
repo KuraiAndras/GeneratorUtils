@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace GeneratorUtils.Samples.MediatR.Generator.FileGenerators
+namespace GeneratorUtils.Samples.Api.Generator.FileGenerators
 {
     public sealed class MediatRRequestHandlerGenerator : IFileGenerator
     {
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using {3};
 using {4};
 
-namespace GeneratorUtils.Samples.MediatR.Handlers
+namespace GeneratorUtils.Samples.Api.Handlers
 {
     public sealed class {0} : IRequestHandler<{1}, {2}>
     {

@@ -1,9 +1,9 @@
-﻿using GeneratorUtils.Samples.MediatR.Generator.FileGenerators;
+﻿using GeneratorUtils.Samples.Api.Generator.FileGenerators;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Threading.Tasks;
 
-namespace GeneratorUtils.Samples.MediatR.Generator
+namespace GeneratorUtils.Samples.Api.Generator
 {
     public static class Program
     {
@@ -11,7 +11,7 @@ namespace GeneratorUtils.Samples.MediatR.Generator
         {
             var services = new ServiceCollection();
 
-            services.AddGenerator(builder => builder.TargetRootPath = @"D:\GeneratorUtils\samples\GeneratorUtils.Samples.MediatR");
+            services.AddGenerator(builder => builder.TargetRootPath = @"D:\GeneratorUtils\samples\GeneratorUtils.Samples.Api");
 
             services.AddTransient<IFileGenerator, MediatRRequestHandlerGenerator>();
             services.AddTransient<IInputTypeProvider, MediatRRequestHandlerTypeProvider>();

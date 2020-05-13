@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\GeneratorUtils\GeneratorUtils.csproj" />
-    <ProjectReference Include="..\GeneratorUtils.Samples.MediatR\GeneratorUtils.Samples.MediatR.csproj" />
+    <ProjectReference Include="..\GeneratorUtils.Samples.Api\GeneratorUtils.Samples.Api.csproj" />
   </ItemGroup>
 
 </Project>
