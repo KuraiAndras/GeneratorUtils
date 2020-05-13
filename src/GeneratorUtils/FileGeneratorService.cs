@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,11 +43,14 @@ namespace GeneratorUtils
             try
             {
                 _logger.LogInformation("File generation started");
-                var inputTasks = _typeProviders.Select(p => p.GetInputTypesAsync()).ToArray();
 
+                var stopwatch = Stopwatch.StartNew();
+
+                var inputTasks = _typeProviders.Select(p => p.GetInputTypesAsync()).ToArray();
                 await Task.WhenAll(inputTasks);
 
                 _logger.LogInformation("Creating file outputs");
+
                 var outputs = new List<FileOutput>();
                 foreach (var typeInput in inputTasks.SelectMany(t => t.Result))
                 {
@@ -60,8 +64,23 @@ namespace GeneratorUtils
                 }
 
                 _logger.LogInformation("Generating file outputs");
+
+                var fileCount = 0;
                 foreach (var fileOutput in outputs)
                 {
+                    if (File.Exists(fileOutput.FilePath))
+                    {
+                        if (fileOutput.ReplaceIfExists)
+                        {
+                            File.Delete(fileOutput.FilePath);
+                        }
+                        else
+                        {
+                            _logger.LogInformation("Skipped file {0}", fileOutput.FilePath);
+                            continue;
+                        }
+                    }
+
                     var tokenizer = _tokenizers.SingleOrDefault(t => t.GetType() == fileOutput.Tokenizer) ?? throw new GeneratorException($"Tokenizer not found {fileOutput.Tokenizer.FullName}");
 
                     var tokenizedFileBody = await tokenizer.TokenizeAsync(fileOutput.FileBody, fileOutput.Tokens, fileOutput.StringComparison);
@@ -69,14 +88,17 @@ namespace GeneratorUtils
                     var fileDirectory = Path.GetDirectoryName(fileOutput.FilePath);
                     if (!Directory.Exists(fileDirectory)) Directory.CreateDirectory(fileDirectory);
 
-                    await using var stream =
-                        new FileStream(fileOutput.FilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    await using var stream = new FileStream(fileOutput.FilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     await using var writer = new StreamWriter(stream);
-
                     await writer.WriteAsync(tokenizedFileBody);
+
+                    _logger.LogInformation("Created file {0}", fileOutput.FilePath);
+                    fileCount++;
                 }
 
+                stopwatch.Stop();
                 _logger.LogInformation("File generation finished");
+                _logger.LogInformation("Created {0} files in {1}", fileCount, stopwatch.Elapsed);
             }
             catch (Exception e)
             {
