@@ -172,3 +172,9 @@ dotnet_diagnostic.SA1503.severity = none
 
 # CA1040: Avoid empty interfaces
 dotnet_diagnostic.CA1040.severity = none
+
+# S3966: Objects should not be disposed more than once
+dotnet_diagnostic.S3966.severity = none
+
+# RCS1079: Throwing of new NotImplementedException.
+dotnet_diagnostic.RCS1079.severity = warning
