@@ -13,7 +13,7 @@ namespace GeneratorUtils
             IEnumerable<string> tokens,
             Type? tokenizer = null,
             StringComparison stringComparison = StringComparison.InvariantCulture,
-            bool replaceIfExists = true)
+            bool replaceIfExists = false)
         {
             FileBody = fileBody;
             FilePath = filePath;

@@ -55,7 +55,7 @@ namespace GeneratorUtils.Samples.MediatR.Generator.FileGenerators
                 responseType.Namespace ?? throw new GeneratorException("No namespace for type"),
             };
 
-            return Task.FromResult(new FileOutput(file, path, tokens, replaceIfExists: true));
+            return Task.FromResult(new FileOutput(file, path, tokens));
         }
     }
 }
