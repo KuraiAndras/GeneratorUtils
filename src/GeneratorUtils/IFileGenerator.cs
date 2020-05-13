@@ -5,6 +5,6 @@ namespace GeneratorUtils
 {
     public interface IFileGenerator
     {
-        Task<FileOutput> CreateFileBodyForFileAsync(Type type, string rootDirectory);
+        Task<FileOutput> CreateFileBodyForFileAsync(Type inputType, string rootDirectory);
     }
 }

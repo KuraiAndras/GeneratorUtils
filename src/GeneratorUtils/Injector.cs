@@ -11,6 +11,7 @@ namespace GeneratorUtils
             optionsBuilder?.Invoke(options);
 
             services.AddSingleton(options);
+            services.AddTransient<ITokenizer, DefaultTokenizer>();
 
             services.AddHostedService<ClassGeneratorHostedService>();
 
