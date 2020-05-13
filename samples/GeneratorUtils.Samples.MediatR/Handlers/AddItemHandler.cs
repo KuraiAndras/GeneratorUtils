@@ -1,16 +1,15 @@
-using GeneratorUtils.Samples.MediatR.Requests.Items;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace GeneratorUtils.Samples.MediatR.Handlers
 {
-    public sealed class AddItemHandler : IRequestHandler<AddItem, Guid>
+    public sealed class AddItemHandler : IRequestHandler<Requests.Items.AddItem, Guid>
     {
-        public Task<Guid> Handle(AddItem request, CancellationToken cancellationToken)
+        public Task<Guid> Handle(Requests.Items.AddItem request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

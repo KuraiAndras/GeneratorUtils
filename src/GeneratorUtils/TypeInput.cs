@@ -4,14 +4,14 @@ namespace GeneratorUtils
 {
     public sealed class TypeInput
     {
-        public TypeInput(Type inputType, Type handlerType)
+        public TypeInput(Type inputType, Type generatorType)
         {
             InputType = inputType;
-            HandlerType = handlerType;
+            GeneratorType = generatorType;
         }
 
         public Type InputType { get; }
 
-        public Type HandlerType { get; }
+        public Type GeneratorType { get; }
     }
 }

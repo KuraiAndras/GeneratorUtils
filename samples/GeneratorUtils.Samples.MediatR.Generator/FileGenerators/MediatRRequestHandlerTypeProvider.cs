@@ -1,5 +1,6 @@
-﻿using GeneratorUtils.Samples.MediatR.Requests.Items;
+﻿using MediatR;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GeneratorUtils.Samples.MediatR.Generator.FileGenerators
@@ -8,7 +9,14 @@ namespace GeneratorUtils.Samples.MediatR.Generator.FileGenerators
     {
         public Task<ImmutableArray<TypeInput>> GetInputTypesAsync()
         {
-            return Task.FromResult(ImmutableArray.Create(new TypeInput(typeof(AddItem), typeof(MediatRRequestHandlerGenerator))));
+            var requests = typeof(SampleMarkerType)
+                .Assembly
+                .GetTypes()
+                .Where(t => t.GetInterfaces().Any(i => typeof(IBaseRequest).IsAssignableFrom(i)))
+                .Select(t => new TypeInput(t, typeof(MediatRRequestHandlerGenerator)))
+                .ToImmutableArray();
+
+            return Task.FromResult(requests);
         }
     }
 }

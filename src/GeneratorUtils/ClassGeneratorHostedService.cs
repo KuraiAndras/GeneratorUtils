@@ -43,10 +43,8 @@ namespace GeneratorUtils
             var outputs = new List<FileOutput>();
             foreach (var typeInput in inputTasks.SelectMany(t => t.Result))
             {
-                if (cancellationToken.IsCancellationRequested) return;
-
-                var handler = _fileGenerators.SingleOrDefault(g => g.GetType() == typeInput.HandlerType);
-                if (handler is null) throw new GeneratorException($"Did not register handler {typeInput.HandlerType.FullName}");
+                var handler = _fileGenerators.SingleOrDefault(g => g.GetType() == typeInput.GeneratorType);
+                if (handler is null) throw new GeneratorException($"Did not register handler {typeInput.GeneratorType.FullName}");
 
                 var output = await handler.CreateFileBodyForFileAsync(typeInput.InputType, _options.TargetRootPath);
 
@@ -55,8 +53,6 @@ namespace GeneratorUtils
 
             foreach (var fileOutput in outputs)
             {
-                if (cancellationToken.IsCancellationRequested) return;
-
                 var tokenizer = _tokenizers.SingleOrDefault(t => t.GetType() == fileOutput.Tokenizer) ?? throw new GeneratorException($"Tokenizer not found {fileOutput.Tokenizer.FullName}");
 
                 var tokenizedFileBody = await tokenizer.TokenizeAsync(fileOutput.FileBody, fileOutput.Tokens, fileOutput.StringComparison);
