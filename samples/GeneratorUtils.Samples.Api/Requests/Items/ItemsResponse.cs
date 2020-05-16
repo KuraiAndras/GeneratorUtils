@@ -1,10 +1,9 @@
 ﻿using GeneratorUtils.Samples.Api.Domain;
-using MediatR;
 using System.Collections.Immutable;
 
-namespace GeneratorUtils.Samples.Api.Requests.Orders
+namespace GeneratorUtils.Samples.Api.Requests.Items
 {
-    public sealed class AddOrder : IRequest
+    public sealed class ItemsResponse
     {
         public IImmutableSet<Item> Items { get; set; } = ImmutableHashSet<Item>.Empty;
     }
