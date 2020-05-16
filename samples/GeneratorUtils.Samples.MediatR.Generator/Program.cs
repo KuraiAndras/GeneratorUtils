@@ -1,4 +1,4 @@
-﻿using GeneratorUtils.Samples.Api.Generator.FileGenerators;
+﻿using GeneratorUtils.Samples.Api.Generator.RequestHandlers;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
@@ -19,9 +19,8 @@ namespace GeneratorUtils.Samples.Api.Generator
 
             services.AddGenerator(builder => builder.TargetRootPath = targetPath);
 
-            services.AddTransient<IFileGenerator, MediatRRequestHandlerGenerator>();
-            services.AddTransient<IInputTypeProvider, MediatRRequestHandlerTypeProvider>();
-            services.AddTransient<IGeneratorService, FileGeneratorService>();
+            services.AddTransient<IFileGenerator, RequestHandlerGenerator>();
+            services.AddTransient<IInputTypeProvider, RequestHandlerTypeProvider>();
 
             services.AddLogging(options => options.AddSerilog(new LoggerConfiguration().WriteTo.Console().CreateLogger()));
 

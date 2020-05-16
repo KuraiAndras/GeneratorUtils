@@ -3,9 +3,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace GeneratorUtils.Samples.Api.Generator.FileGenerators
+namespace GeneratorUtils.Samples.Api.Generator.RequestHandlers
 {
-    public sealed class MediatRRequestHandlerGenerator : IFileGenerator
+    public sealed class RequestHandlerGenerator : IFileGenerator
     {
         public Task<FileOutput> CreateFileBodyForFileAsync(Type inputType, string rootDirectory)
         {
