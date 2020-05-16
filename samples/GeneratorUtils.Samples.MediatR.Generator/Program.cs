@@ -1,4 +1,5 @@
-﻿using GeneratorUtils.Samples.Api.Generator.RequestHandlers;
+﻿using GeneratorUtils.Samples.Api.Generator.Controllers;
+using GeneratorUtils.Samples.Api.Generator.RequestHandlers;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
@@ -21,6 +22,8 @@ namespace GeneratorUtils.Samples.Api.Generator
 
             services.AddTransient<IFileGenerator, RequestHandlerGenerator>();
             services.AddTransient<IInputTypeProvider, RequestHandlerTypeProvider>();
+            services.AddTransient<IFileGenerator, ControllerGenerator>();
+            services.AddTransient<IInputTypeProvider, ControllerTypeProvider>();
 
             services.AddLogging(options => options.AddSerilog(new LoggerConfiguration().WriteTo.Console().CreateLogger()));
 
