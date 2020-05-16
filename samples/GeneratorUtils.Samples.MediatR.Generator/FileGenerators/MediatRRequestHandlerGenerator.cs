@@ -11,13 +11,13 @@ namespace GeneratorUtils.Samples.Api.Generator.FileGenerators
         {
             // ReSharper disable once MissingIndent
             const string file =
-@"using MediatR;
+@"using {3};
+using {4};
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using {3};
-using {4};
 
-namespace GeneratorUtils.Samples.Api.Handlers
+namespace {5}
 {
     public sealed class {0} : IRequestHandler<{1}, {2}>
     {
@@ -46,7 +46,13 @@ namespace GeneratorUtils.Samples.Api.Handlers
 
             if (responseType is null) throw new GeneratorException("No response type");
 
-            var path = Path.Combine(rootDirectory, "Handlers", inputType.Name + "Handler.cs");
+            var targetNamespace = inputType.Namespace?.Replace("Requests", "Handlers", StringComparison.InvariantCulture) ?? throw new GeneratorException("No namespace");
+
+            var relativePath = targetNamespace
+                .Replace("GeneratorUtils.Samples.Api.Handlers.", string.Empty, StringComparison.InvariantCulture)
+                .Replace(".", "\\", StringComparison.InvariantCulture);
+
+            var path = Path.GetFullPath(Path.Combine(rootDirectory, "Handlers", relativePath, inputType.Name + "Handler.cs"));
             var tokens = new[]
             {
                 inputType.Name + "Handler",
@@ -54,6 +60,7 @@ namespace GeneratorUtils.Samples.Api.Handlers
                 responseType.Name,
                 inputType.Namespace ?? throw new GeneratorException("No namespace for type"),
                 responseType.Namespace ?? throw new GeneratorException("No namespace for type"),
+                targetNamespace,
             };
 
             return Task.FromResult(new FileOutput(file, path, tokens));
