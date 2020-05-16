@@ -1,6 +1,8 @@
 ﻿using GeneratorUtils.Samples.Api.Generator.FileGenerators;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace GeneratorUtils.Samples.Api.Generator
@@ -11,7 +13,11 @@ namespace GeneratorUtils.Samples.Api.Generator
         {
             var services = new ServiceCollection();
 
-            services.AddGenerator(builder => builder.TargetRootPath = @"D:\GeneratorUtils\samples\GeneratorUtils.Samples.Api");
+            Console.WriteLine(Directory.GetCurrentDirectory());
+
+            var targetPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..", "GeneratorUtils.Samples.Api"));
+
+            services.AddGenerator(builder => builder.TargetRootPath = targetPath);
 
             services.AddTransient<IFileGenerator, MediatRRequestHandlerGenerator>();
             services.AddTransient<IInputTypeProvider, MediatRRequestHandlerTypeProvider>();
