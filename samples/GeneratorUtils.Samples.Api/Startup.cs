@@ -21,6 +21,8 @@ namespace GeneratorUtils.Samples.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSwaggerDocument();
         }
 #pragma warning restore CA1822 // Mark members as static
 
@@ -32,6 +34,9 @@ namespace GeneratorUtils.Samples.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
 
             app.UseHttpsRedirection();
