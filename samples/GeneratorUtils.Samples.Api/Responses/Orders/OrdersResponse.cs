@@ -1,7 +1,7 @@
 ﻿using GeneratorUtils.Samples.Api.Domain;
 using System.Collections.Immutable;
 
-namespace GeneratorUtils.Samples.Api.Requests.Orders
+namespace GeneratorUtils.Samples.Api.Responses.Orders
 {
     public sealed class OrdersResponse
     {
