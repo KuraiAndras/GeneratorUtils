@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeneratorUtils.Samples.Api.Requests.Items
+namespace GeneratorUtils.Samples.Api.Domain
 {
     public sealed class Item
     {

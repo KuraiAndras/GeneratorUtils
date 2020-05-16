@@ -13,7 +13,7 @@ namespace GeneratorUtils
             services.AddSingleton(options);
             services.AddTransient<ITokenizer, DefaultTokenizer>();
 
-            services.AddTransient<FileGeneratorService>();
+            services.AddTransient<IGeneratorService, FileGeneratorService>();
 
             return services;
         }
